@@ -13,9 +13,9 @@ Grandi’s series is a classic example of a divergent series in mathematics. Nam
 S = 1 - 1 + 1 - 1 + 1 - 1 + ...
 ```
 
-At first glance it looks trivial: add one, subtract one, repeat. But the series has no conventional sum. It never converges to a fixed value. Depending on where you stop, the partial sum is either 0 or 1, and it switches between them forever. This makes Grandi's series a foundational example of a divergent series — one that is simultaneously simple to state and impossible to resolve in the usual sense.
+At first glance it looks trivial: add one, subtract one, repeat. But the series has no conventional sum. It never converges to a fixed value. Depending on where you stop, the partial sum is either 0 or 1, and it switches between them forever. This makes Grandi's series a foundational example of a divergent series.
 
-Mathematicians have nonetheless assigned it a regularised value. By the method of Cesaro summation, the arithmetic mean of the partial sums converges to **1/2**, and this is the value most often cited when someone claims the sum of the series "is" one-half. This is not the same as saying the series converges — it is a different, more general notion of what a sum can mean.
+Mathematicians have nonetheless assigned it a regularised value of 1/2 through Cesàro summation, which averages the partial sums. This is the value most people mean when they say the series sums to one-half, though the series itself stays divergent.
 
 ---
 
