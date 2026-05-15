@@ -1,5 +1,6 @@
 # Grandi's Series Visualiser
-**https://cms1111.github.io/grandis-series/**
+**https://cms1111.github.io/grandis-series/** 
+ 
 **Author:** CMS1111
 **License:** Free for non-commercial use. This work may be forked, modified, and used by anyone, for any purpose other than a for-profit project.
 
