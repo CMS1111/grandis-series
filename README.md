@@ -15,7 +15,7 @@ S = 1 - 1 + 1 - 1 + 1 - 1 + ...
 
 At first glance it looks trivial: add one, subtract one, repeat. But the series has no conventional sum. It never converges to a fixed value. Depending on where you stop, the partial sum is either 0 or 1, and it switches between them forever. This makes Grandi's series a foundational example of a divergent series.
 
-Mathematicians have nonetheless assigned it a regularised value of 1/2 through Cesàro summation, which averages the partial sums. This is the value most people mean when they say the series sums to one-half, though the series itself stays divergent.
+Mathematicians have nonetheless assigned it a regularised value of 1/2 through Cesàro summation, which averages the partial sums. This is the value most people mean when they say the series sums to one-half, even though the series itself never converges in the usual way.
 
 ---
 
@@ -59,7 +59,7 @@ Step 3  (-1)  ->  S = 0
          ...
 ```
 
-The partial sum never settles. It does not grow, decay, or drift. This is the defining behavior of a divergent oscillating series, and it is precisely what both versions of this visualiser are built to display.
+The partial sum stays locked in a perfect, endless oscillation between 1 and 0. This is the defining behavior of a divergent oscillating series, and it is precisely what both versions of this visualiser are built to display.
 
 ---
 
