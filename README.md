@@ -7,7 +7,7 @@
 
 ## What Is Grandi's Series
 
-Grandi's series is one of the most discussed divergent series in the history of mathematics. Named after the Italian monk and mathematician Guido Grandi (1671–1742), it is the infinite sum:
+Grandi’s series is a classic example of a divergent series in mathematics. Named after the Italian monk and mathematician Guido Grandi (1671–1742), it is the infinite sum:
 
 ```
 S = 1 - 1 + 1 - 1 + 1 - 1 + ...
@@ -19,7 +19,7 @@ Mathematicians have nonetheless assigned it a regularised value. By the method o
 
 ---
 
-## The Expression (-1)^i
+## The Expression (-1)^i 
 
 Each term in the series is produced by the expression **(-1)^i**, where `i` is the zero-based index of the term:
 
@@ -59,7 +59,7 @@ Step 3  (-1)  ->  S = 0
          ...
 ```
 
-The partial sum never settles. It does not grow, decay, or drift — it simply alternates. This is the defining behaviour of a divergent oscillating series, and it is precisely what both versions of this visualiser are built to display.
+The partial sum never settles. It does not grow, decay, or drift. This is the defining behavior of a divergent oscillating series, and it is precisely what both versions of this visualiser are built to display.
 
 ---
 
@@ -67,9 +67,7 @@ The partial sum never settles. It does not grow, decay, or drift — it simply a
 
 The display cycles through three colors — **green**, **blue**, **red** — one color per step.
 
-The color carries no mathematical meaning. It is a visual device made necessary by the nature of the series: because the partial sum alternates between only two values (0 and 1), the numeral on screen would appear frozen even while the series advances. The color change provides a perceptual signal that a new step has occurred, making the oscillation legible at a glance.
-
-The cycle length of three is intentional. A two-color cycle would itself oscillate in a way that could be confused with the series. Three colors break that symmetry.
+The color carries no mathematical meaning. It is a visual device made necessary by the nature of the series: because the partial sum alternates between only two values (0 and 1), a two-color cycle would itself oscillate in a way that could be confused with the series. The color change provides a perceptual signal that a new step has occurred, making the oscillation legible at a glance. Three colors break that symmetry.
 
 ---
 
