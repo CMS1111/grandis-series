@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grandi's Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #ffffff;
+    --fg:      #080808;
+    --muted:   #aaaaaa;
+    --border:  #d8d8d8;
+    --surface: #f4f4f4;
+    --green:   #1a7a3a;
+    --blue:    #0057ff;
+    --red:     #cc2200;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'IBM Plex Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  /* ------------------------------------------------------------------ card */
+  .card {
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid var(--border);
+  }
+
+  /* ---------------------------------------------------------------- header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-title {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .header-expr {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  /* ----------------------------------------------------------- big number */
+  .number-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .big-number {
+    font-size: clamp(80px, 18vw, 120px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -4px;
+    color: var(--fg);
+    transition: color 0.18s ease;
+    user-select: none;
+  }
+
+  .sign-block {
+    text-align: right;
+    padding-bottom: 8px;
+  }
+
+  .sign-label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .sign-value {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--fg);
+    transition: color 0.18s ease;
+  }
+
+  /* --------------------------------------------------------------- meta row */
+  .meta-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-cell {
+    padding: 1rem 1.25rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .meta-cell:last-child { border-right: none; }
+
+  .meta-key {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .meta-val {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fg);
+    transition: color 0.18s ease;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ---------------------------------------------------------- sequence strip */
+  .sequence-section {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    min-height: 58px;
+  }
+
+  .section-label {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .sequence-strip {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .s-chip {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+    padding: 2px 5px;
+  }
+
+  .s-chip.active {
+    font-weight: 600;
+    border-bottom: 2px solid currentColor;
+  }
+
+  /* -------------------------------------------------------------- controls */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1.25rem 2rem;
+  }
+
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background 0.12s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn:hover { background: var(--surface); }
+
+  .btn.primary {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  .btn.primary:hover { opacity: 0.82; }
+
+  .status {
+    margin-left: auto;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .status-dot.live { background: var(--green); }
+
+  /* -------------------------------------------------- floating tooltip */
+  #tooltip {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    padding: 0.85rem 1.05rem;
+    width: 280px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  #tooltip.visible { opacity: 1; }
+
+  #tooltip-title {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #555555;
+    margin-bottom: 7px;
+  }
+
+  #tooltip-body {
+    font-size: 11px;
+    line-height: 1.7;
+    font-weight: 300;
+    color: #f0f0f0;
+  }
+
+  #tooltip-body code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #7eb8ff;
+    background: rgba(255,255,255,0.08);
+    padding: 1px 5px;
+  }
+
+  /* hoverable zones get a subtle cursor hint */
+  [data-tip] { cursor: default; }
+</style>
+</head>
+<body>
+
+<!-- FLOATING TOOLTIP (single, page-level) -->
+<div id="tooltip">
+  <p id="tooltip-title"></p>
+  <p id="tooltip-body"></p>
+</div>
+
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="card-header"
+    data-tip="header">
+    <span class="header-title">Grandi's Series</span>
+    <span class="header-expr">S = &Sigma; (&minus;1)<sup>i</sup>, &nbsp;i = 0, 1, 2, &hellip;</span>
+  </div>
+
+  <!-- BIG NUMBER + SIGN -->
+  <div class="number-row"
+    data-tip="number">
+    <div class="big-number" id="big-num">0</div>
+    <div class="sign-block">
+      <span class="sign-label">Sign</span>
+      <span class="sign-value" id="sign-val">&mdash;</span>
+    </div>
+  </div>
+
+  <!-- META ROW -->
+  <div class="meta-row">
+    <div class="meta-cell" data-tip="index">
+      <span class="meta-key">i</span>
+      <span class="meta-val" id="m-term">&mdash;</span>
+    </div>
+    <div class="meta-cell" data-tip="color">
+      <span class="meta-key">Color</span>
+      <span class="meta-val" id="m-color">&mdash;</span>
+    </div>
+    <div class="meta-cell" data-tip="steps">
+      <span class="meta-key">Steps</span>
+      <span class="meta-val" id="m-steps">0</span>
+    </div>
+  </div>
+
+  <!-- CURRENT SEQUENCE -->
+  <div class="sequence-section" data-tip="sequence">
+    <span class="section-label">Current sequence</span>
+    <div class="sequence-strip" id="sequence-strip"></div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls" data-tip="controls">
+    <button class="btn primary" id="btn-toggle">Start</button>
+    <button class="btn" id="btn-reset">Reset</button>
+    <span class="status">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Stopped</span>
+    </span>
+  </div>
+
+</div>
+
+<script>
+(function () {
+
+  /* -------------------------------------------------------- tooltip data */
+  var TIPS = {
+    header: {
+      title: 'About this series',
+      body:  'Grandi\u2019s series \u2014 named after Guido Grandi (1671\u20131742) \u2014 is the infinite sum <code>1 \u2212 1 + 1 \u2212 1 + \u2026</code> It has no conventional sum; its partial sums never converge. Each term is <code>(\u22121)<sup>i</sup></code>: positive for even\u00a0<em>i</em>, negative for odd\u00a0<em>i</em>. The Cesaro mean assigns it the regularised value\u00a01/2.'
+    },
+    number: {
+      title: 'Partial sum',
+      body:  'The large numeral is the <em>partial sum</em> \u2014 the accumulated total after all terms so far. Because every term is either <code>+1</code> or <code>\u22121</code>, the partial sum oscillates between <strong>0</strong> and <strong>1</strong> indefinitely. The sign badge shows which value was added on the current step.'
+    },
+    index: {
+      title: 'Index',
+      body:  '<em>i</em> is the zero-based position of the current term. The term value is <code>(\u22121)<sup>i</sup></code>. Even\u00a0<em>i</em> gives <code>+1</code>; odd\u00a0<em>i</em> gives <code>\u22121</code>.'
+    },
+    color: {
+      title: 'Color cycle',
+      body:  'The display cycles green \u2192 blue \u2192 red on every step. Because the partial sum alternates between only two values, the color is the sole perceptual signal that the series has advanced. It carries no mathematical meaning.'
+    },
+    steps: {
+      title: 'Step count',
+      body:  'Total terms evaluated since the last reset. Grandi\u2019s series is infinite; this counter has no upper bound. Each step takes exactly one second.'
+    },
+    sequence: {
+      title: 'Current sequence',
+      body:  'The last 20 signed terms in order of production. Each chip shows <code>+1</code> or <code>\u22121</code>. The most recent term is highlighted in the active cycle color with an underline. Reading left to right traces the history of the series.'
+    },
+    controls: {
+      title: 'Controls',
+      body:  '<strong>Start / Pause</strong> \u2014 begin or suspend the one-second step interval. <strong>Reset</strong> \u2014 return all state to zero and stop the timer. The indicator on the right reflects the current run state.'
+    }
+  };
+
+  /* -------------------------------------------------------- tooltip logic */
+  var tip       = document.getElementById('tooltip');
+  var tipTitle  = document.getElementById('tooltip-title');
+  var tipBody   = document.getElementById('tooltip-body');
+  var OFFSET_Y  = 20;   /* px above cursor */
+  var mouseX    = 0;
+  var mouseY    = 0;
+  var activeZone = null;
+
+  document.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (activeZone) positionTip();
+  });
+
+  function positionTip() {
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var vw = window.innerWidth;
+
+    var left = mouseX - tw / 2;
+    var top  = mouseY - th - OFFSET_Y;
+
+    /* keep within viewport horizontally */
+    if (left < 8) left = 8;
+    if (left + tw > vw - 8) left = vw - tw - 8;
+    /* if too close to top, flip below cursor */
+    if (top < 8) top = mouseY + OFFSET_Y;
+
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  function showTip(key) {
+    var data = TIPS[key];
+    if (!data) return;
+    tipTitle.textContent = data.title;
+    tipBody.innerHTML    = data.body;
+    activeZone = key;
+    positionTip();
+    tip.classList.add('visible');
+  }
+
+  function hideTip() {
+    activeZone = null;
+    tip.classList.remove('visible');
+  }
+
+  /* attach to all data-tip zones */
+  document.querySelectorAll('[data-tip]').forEach(function (el) {
+    var key = el.getAttribute('data-tip');
+    el.addEventListener('mouseenter', function () { showTip(key); });
+    el.addEventListener('mouseleave', hideTip);
+  });
+
+  /* -------------------------------------------------------- series logic */
+  var COLORS      = ['#1a7a3a', '#0057ff', '#cc2200'];
+  var COLOR_NAMES = ['Green', 'Blue', 'Red'];
+
+  var termIdx = 0, total = 0, colIdx = 0;
+  var running = false, timer = null, history = [];
+
+  var elNum   = document.getElementById('big-num');
+  var elSign  = document.getElementById('sign-val');
+  var elTerm  = document.getElementById('m-term');
+  var elColor = document.getElementById('m-color');
+  var elSteps = document.getElementById('m-steps');
+  var elStrip = document.getElementById('sequence-strip');
+  var btnTgl  = document.getElementById('btn-toggle');
+  var btnRst  = document.getElementById('btn-reset');
+  var dot     = document.getElementById('status-dot');
+  var statusT = document.getElementById('status-text');
+
+  function getSign(i) { return i % 2 === 0 ? 1 : -1; }
+
+  function step() {
+    var sign = getSign(termIdx);
+    total += sign;
+    history.push({ i: termIdx, sign: sign, total: total });
+
+    var col  = COLORS[colIdx % 3];
+    var name = COLOR_NAMES[colIdx % 3];
+    colIdx++;
+
+    elNum.style.color   = col;
+    elSign.style.color  = col;
+    elNum.textContent   = total;
+    elSign.textContent  = sign === 1 ? '+1' : '\u22121';
+    elTerm.textContent  = 'i = ' + termIdx;
+    elColor.textContent = name;
+    elColor.style.color = col;
+    elSteps.textContent = termIdx + 1;
+
+    termIdx++;
+    renderStrip(col);
+  }
+
+  function renderStrip(activeCol) {
+    var recent = history.slice(-20);
+    elStrip.innerHTML = '';
+    recent.forEach(function (h, idx) {
+      var isLast = idx === recent.length - 1;
+      var chip = document.createElement('span');
+      chip.className = 's-chip' + (isLast ? ' active' : '');
+      chip.textContent = h.sign === 1 ? '+1' : '\u22121';
+      chip.style.color = isLast ? activeCol : '';
+      elStrip.appendChild(chip);
+    });
+  }
+
+  function setRunning(state) {
+    running = state;
+    if (running) {
+      btnTgl.textContent  = 'Pause';
+      dot.classList.add('live');
+      statusT.textContent = 'Running';
+      timer = setInterval(step, 1000);
+    } else {
+      btnTgl.textContent  = 'Start';
+      dot.classList.remove('live');
+      statusT.textContent = 'Stopped';
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function reset() {
+    setRunning(false);
+    termIdx = 0; total = 0; colIdx = 0; history = [];
+    elNum.textContent   = '0';
+    elNum.style.color   = '';
+    elSign.textContent  = '\u2014';
+    elSign.style.color  = '';
+    elTerm.textContent  = '\u2014';
+    elColor.textContent = '\u2014';
+    elColor.style.color = '';
+    elSteps.textContent = '0';
+    elStrip.innerHTML   = '';
+  }
+
+  btnTgl.addEventListener('click', function () { setRunning(!running); });
+  btnRst.addEventListener('click', reset);
+
+}());
+</script>
+
+</body>
+</html>
