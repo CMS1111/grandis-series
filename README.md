@@ -75,7 +75,7 @@ The cycle length of three is intentional. A two-color cycle would itself oscilla
 
 ## Exploring the Webpage
 
-Open `grandi.html` in any modern browser — no server or installation required.
+Open `index.html` in any modern browser, or visit https://cms1111.github.io/grandis-series/
 
 The interface is divided into five sections. Hovering over any section reveals a dark overlay with a detailed explanation of what that section shows:
 
@@ -90,45 +90,9 @@ Click **Start** to begin the one-second interval. Click **Pause** to suspend it.
 
 ---
 
-## Installing and Running the Python Script
+##  the Python Script
 
-The Python version is a standalone desktop application for Windows 11 (and any platform with Python 3.8+). It uses `tkinter`, which is included with the standard Python installation on Windows — no additional packages are required.
-
-### Requirements
-
-- Python 3.8 or later
-- `tkinter` (included with the standard Windows Python installer)
-
-### Download
-
-Download `grandi_gui.py` from this repository. Place it anywhere on your machine.
-
-### Run
-
-Open a terminal (Command Prompt or PowerShell) and run:
-
-```
-python grandi_gui.py
-```
-
-Or double-click the file in File Explorer if `.py` files are associated with Python on your system.
-
-### Interface
-
-The application opens centered on your screen. It has two tabs:
-
-**Visualiser tab**
-
-- The large numeral shows the current partial sum, colored by the active cycle step.
-- The sign badge shows `+1` or `-1` for the current term.
-- The `i = n` field shows the zero-based index of the most recently evaluated term.
-- The color and steps fields update on each tick.
-- The **current sequence** strip at the bottom shows the last 18 signed terms, with the most recent highlighted.
-- **Start / Pause** and **Reset** buttons control the timer.
-
-**About tab**
-
-- A scrollable reference that explains the mathematics of Grandi's series, the expression `(-1)^i`, the oscillation behaviour, the color cycle, and the controls. Code examples are highlighted in blue.
+coming soon ... stuff happened, it's broken :(
 
 ---
 
@@ -137,7 +101,7 @@ The application opens centered on your screen. It has two tabs:
 | File            | Description                                      |
 |-----------------|--------------------------------------------------|
 | `grandi_gui.py` | Python desktop application (Windows 11, tkinter) |
-| `grandi.html`   | Standalone HTML page with hover overlays         |
+| `index.html`    | Standalone HTML page with hover overlays         |
 | `README.md`     | This document                                    |
 
 ---
